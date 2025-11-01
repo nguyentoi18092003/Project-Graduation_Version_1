@@ -1,4 +1,4 @@
-package ptit.orangehrm.clientTests.myInfoModule;
+package ptit.orangehrm.Tests.pimModule;
 
 import commons.BaseTest;
 import commons.PageGeneratorManager;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
-public class personalDetails extends BaseTest {
+public class EditPersonalDetails extends BaseTest {
     private WebDriver driver;
     private String browserName;
     LoginPageObject loginPage;
@@ -28,7 +28,7 @@ public class personalDetails extends BaseTest {
     @BeforeClass
     public void beforeClass() {
         excelConfig = ExcelConfig.getExcelData();
-        excelConfig.switchToSheet("personalDetails");
+        excelConfig.switchToSheet("EditPersonalDetails");
         int counter = 0;
         for(int i=1;i<=83;i++){
             String moTa = excelConfig.getCellData("Description", i );

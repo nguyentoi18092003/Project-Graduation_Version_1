@@ -23,11 +23,11 @@
             <!--                <class name="com_orangehrm_admin.Admin_04_Job_Categories"></class>-->
 <!--                        <class name="ptit.orangehrm.intergrationTests.Pim_01_Add_Employee"></class>-->
             <!--            <class name="ptit.orangehrm.intergrationTests.Pim_And_MyInfo"></class>-->
-<!--                        <class name="ptit.orangehrm.clientTests.Login.Login"></class>-->
-            <class name="ptit.orangehrm.Tests.TimeModule.MyTimesheet"></class>
+<!--                        <class name="ptit.orangehrm.Tests.SystemAdminModule.Login"></class>-->
+<!--            <class name="ptit.orangehrm.Tests.TimeModule.MyTimesheet"></class>-->
 
 <!--            <class name="ptit.orangehrm.Tests.TimeModule.PunchIn_PunchOut"></class>-->
-<!--            <class name="ptit.orangehrm.Tests.pimModule.EmployeeManagement"></class>-->
+            <class name="ptit.orangehrm.Tests.pimModule.EmployeeManagement"></class>
             <!--            <class name="ptit.orangehrm.Tests.pimModule.dataImport"></class>-->
 <!--            <class name="ptit.orangehrm.Tests.pimModule.AddEmployee"></class>-->
         </classes>

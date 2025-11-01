@@ -31,6 +31,7 @@ public class BaseElement extends BasePage {
 
     public void enterToCanlenderTextboxByLabel(String valueToSendKey, String label) {
         waitForElementVisible(driver, BaseElementUI.DYNAMIC_CANLENDER_TEXTBOX_BY_LABEL, label);
+        clearInputByJS(driver,BaseElementUI.DYNAMIC_CANLENDER_TEXTBOX_BY_LABEL, label);
         sendkeyToElement(driver, BaseElementUI.DYNAMIC_CANLENDER_TEXTBOX_BY_LABEL, valueToSendKey, label);
     }
     public void enterToTextareaByLabel(String valueToSendKey, String label) {
@@ -99,7 +100,7 @@ public class BaseElement extends BasePage {
 
         public void clickToSaveButtonByLabel(String label) {
         waitForElementClickable(driver, BaseElementUI.DYNAMIC_SAVE_BUTTON_BY_LABEL, label);
-        clickToElement(driver, BaseElementUI.DYNAMIC_SAVE_BUTTON_BY_LABEL, label);
+        clickToElementByJS(driver, BaseElementUI.DYNAMIC_SAVE_BUTTON_BY_LABEL, label);
     }
     public void clickButtonSave (){
         waitForElementClickable(driver, BaseElementUI.SAVE_BUTTON);
@@ -110,6 +111,10 @@ public class BaseElement extends BasePage {
     public boolean isSuccessMessageDisplayed(String messageContent) {
         waitForElementVisible(driver, BaseElementUI.DYNAMIC_SUCCESS_MESSAGE, messageContent);
         return isElementDisplayed(driver, BaseElementUI.DYNAMIC_SUCCESS_MESSAGE, messageContent);
+    }
+
+    public boolean isSuccessMessageNotDisplayed(String messageContent) {
+        return isElementUndisplayed(driver, BaseElementUI.DYNAMIC_SUCCESS_MESSAGE, messageContent);
     }
 
     public void enterToTextArea(String valueToSenKey) {

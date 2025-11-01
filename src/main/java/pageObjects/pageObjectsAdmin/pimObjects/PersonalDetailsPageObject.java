@@ -2,6 +2,7 @@ package pageObjects.pageObjectsAdmin.pimObjects;
 
 import org.openqa.selenium.WebDriver;
 import pageUIs.pageUIsAdmin.pimUIs.PersonalDetailsPageUI;
+import pageUIs.pageUIsCommon.commonUIs.BaseElementUI;
 import utilities.MySQLConnUtils;
 
 import java.sql.*;
@@ -23,6 +24,7 @@ public class PersonalDetailsPageObject extends EmployeeListMenuPageObject {
 
     public void enterToDriverNumberTextbox(String numberDriver) {
         waitForElementVisible(driver,PersonalDetailsPageUI.DRIVER_NUMBER_TEXTBOX);
+        clearInputByJS(driver, PersonalDetailsPageUI.DRIVER_NUMBER_TEXTBOX);
         sendkeyToElement(driver,PersonalDetailsPageUI.DRIVER_NUMBER_TEXTBOX,numberDriver);
     }
     public Map<String, String> personalDetailsFromDB(String employeeId) {

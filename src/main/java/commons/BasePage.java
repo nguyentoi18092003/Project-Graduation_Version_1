@@ -350,6 +350,23 @@ public class BasePage {
 
     }
     //K co tren UI va k co trong HTMl
+    public boolean isElementUndisplayed(WebDriver driver, String locator,String ...restParams){
+        //Truoc khi tim element thi set time ngan thoi
+        setImplicitWait(driver,shortTimeOut);
+        List<WebElement> elements=getListWebElement(driver,getDynamicLocator(locator,restParams));
+        //Tra lai timeout mac dinh cho cac step con lai
+        setImplicitWait(driver,longTimeOut);
+        if(elements.size()>0 && elements.get(0).isDisplayed()){
+            return false;
+        }
+        else if(elements.size()>0 && !elements.get(0).isDisplayed()){//Element khong co trong UI va co trong DOM
+            return true;
+        }
+        else{//Element khong co trong UI va khong co trong dom luon
+            return true;
+        }
+
+    }
     public boolean isElementUndisplayed(WebDriver driver, String locator){
         //Truoc khi tim element thi set time ngan thoi
         setImplicitWait(driver,shortTimeOut);

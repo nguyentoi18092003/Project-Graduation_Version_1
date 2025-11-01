@@ -1,6 +1,5 @@
-package ptit.orangehrm.clientTests.Login;
+package ptit.orangehrm.Tests.SystemAdminModule;
 
-import com.sun.source.tree.AssertTree;
 import commons.BaseTest;
 import commons.PageGeneratorManager;
 import org.openqa.selenium.WebDriver;

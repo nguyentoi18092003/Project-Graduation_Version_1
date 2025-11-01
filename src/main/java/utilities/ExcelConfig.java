@@ -13,7 +13,9 @@ import commons.GlobalConstants;
 public class ExcelConfig {
 
 private Sheet currentSheet;
-private String testDataExcelPath = GlobalConstants.getGlobalConstants().getDataTestPath()+ "timeDta.xlsx" ;
+//private String testDataExcelPath = GlobalConstants.getGlobalConstants().getDataTestPath()+ "timeDta.xlsx" ;
+private String testDataExcelPath = GlobalConstants.getGlobalConstants().getDataTestPath()+ "employeeManagementDta.xlsx" ;
+
 private Map<String, Integer> columns;
 
 public static ExcelConfig getExcelData() {
