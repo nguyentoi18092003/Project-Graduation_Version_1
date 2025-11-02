@@ -67,6 +67,51 @@ public class PersonalDetailsPageObject extends EmployeeListMenuPageObject {
 
         return records;
     }
+    public List<String> getListValueDroplistFromDB() {
+        List<String> records = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = MySQLConnUtils.getMySQLConnection();
+            String paramSql = "SELECT c.name FROM `hs_hr_country` as c order by c.name;";
+            pstm = conn.prepareStatement(paramSql);
+            //pstm.setString(1, employeeId);
+            rs = pstm.executeQuery();
+
+            ResultSetMetaData metaData = rs.getMetaData(); // Lấy thông tin cột
+            int columnCount = metaData.getColumnCount(); // Lấy số lượng cột
+
+            while (rs.next()) {
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnValue = rs.getString(i); // Lấy giá trị của cột
+                    columnValue = columnValue.substring(0, 1).toUpperCase() + columnValue.substring(1, columnValue.length() - 1).toLowerCase();
+                    records.add(columnValue);
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstm != null) pstm.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return records;
+    }
+
+    public List<String> getListActualValueDropList() {
+        List<String> valueInDropList;
+        valueInDropList = getListElementText(driver, BaseElementUI.DYNAMIC_VALUE_IN_DROPLIST);
+        return valueInDropList;
+    }
 
 
 

@@ -203,23 +203,23 @@ public class EditPersonalDetails extends BaseTest {
     // TC 06: trên web đang gap bug
     public void TC_06_Combobox(Method method) {
         // Check cac gia tri va thư tu các gia tri
-//        dashboardClientpage.clickToSidebarLinkByText("My Info");
-//        personalDetailClientPage = PageGeneratorManager.getPersonalDetailsPageClient(driver);
-//        personalDetailClientPage.clickButtonAdd();
-//
-//        personalDetailClientPage.waitForSpinnerIconInvisible();
-//
-//        personalDetailClientPage.clickToNationalDropList("Nationality");
-//
-//        listExpectedValueDroplist = personalDetailClientPage.getListValueDroplistFromDB();
-//        listActualValueDroplist = personalDetailClientPage.getListActualValueDropList();
-//        System.out.println("ssssssssssssssssssssssssssss " + listExpectedValueDroplist.size() + "\n");
-//        System.out.println("ssssssssssssssssssssssssssssssssssssss " + listActualValueDroplist.size());
-//
-//        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "test dropdown");
-//        for (int i = 0; i < listExpectedValueDroplist.size(); i++) {
-//            Assert.assertEquals(listActualValueDroplist.get(i), listExpectedValueDroplist.get(i));
-//        }
+        dashboardClientpage.clickToSidebarLinkByText("My Info");
+        personalDetailClientPage = PageGeneratorManager.getPersonalDetailsPageClient(driver);
+        personalDetailClientPage.clickButtonAdd();
+
+        personalDetailClientPage.waitForSpinnerIconInvisible();
+
+        personalDetailClientPage.clickToNationalDropList("Nationality");
+
+        listExpectedValueDroplist = personalDetailClientPage.getListValueDroplistFromDB();
+        listActualValueDroplist = personalDetailClientPage.getListActualValueDropList();
+        System.out.println("ssssssssssssssssssssssssssss " + listExpectedValueDroplist.size() + "\n");
+        System.out.println("ssssssssssssssssssssssssssssssssssssss " + listActualValueDroplist.size());
+
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "test dropdown");
+        for (int i = 0; i < listExpectedValueDroplist.size(); i++) {
+            Assert.assertEquals(listActualValueDroplist.get(i), listExpectedValueDroplist.get(i));
+        }
         Assert.assertEquals("True","True");
 
 

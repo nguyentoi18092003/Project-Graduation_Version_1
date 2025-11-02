@@ -24,6 +24,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Integer.parseInt;
+
 public class EmployeeManagement extends BaseTest {
     private WebDriver driver;
     private String browserName;
@@ -945,7 +947,59 @@ public class EmployeeManagement extends BaseTest {
         personalDetails.enterToTextboxByName(lastName, "lastName");
         personalDetails.enterToTextboxByName(middleName, "middleName");
         otherID=employeeId;
-        //note dang sua den day
+
+        personalDetails.enterToDriverNumberTextbox(driverLicenseNumber);
+        personalDetails.enterToCanlenderTextboxByLabel(licenseExpiryDate,"License Expiry Date");
+        personalDetails.selectToDropdownByLabel(nationality,"Nationality");
+        personalDetails.selectToDropdownByLabel(maritalStatus,"Marital Status");
+        personalDetails.enterToCanlenderTextboxByLabel(dateOfBirth,"Date of Birth");
+        personalDetails.clickToRadioByValue(gender);
+        //maxlength+ 1
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 229).replace("\n", "<br>"));
+        personalDetails.enterToTextboxByLabel(excelConfig.getCellData("Data", 229), "Other Id");
+        personalDetails.clickToSaveButtonByLabel("Personal Details");
+        //Check save fail
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 230).replace("\n", "<br>"));
+        Assert.assertTrue(personalDetails.isSuccessMessageNotDisplayed("Successfully Updated"));
+
+        //minlegth, minlength+1, maxlength-1, maxlength,ki tu dac biet, tieng viet co dau,
+        for (int i = 231; i <= 243; i+=2) {
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", i).replace("\n", "<br>"));
+            otherID = excelConfig.getCellData("Data", i);
+            personalDetails.enterToTextboxByLabel(otherID, "Other Id");
+            ActualValueotherID = personalDetails.getValueInTextBoxByLabel("Other Id");
+            Assert.assertEquals(ActualValueotherID, otherID);
+
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", i+1).replace("\n", "<br>"));
+            //Check DB..
+            personalDetails.clickToSaveButtonByLabel("Personal Details");
+            Assert.assertTrue(personalDetails.isSuccessMessageDisplayed("Successfully Updated"));
+            Map<String, String> personalDetailsDB =personalDetails.personalDetailsFromDB(employeeId);
+            Assert.assertEquals(personalDetailsDB.get("emp_firstname"),firstName);
+            Assert.assertEquals(personalDetailsDB.get("emp_middle_name"),middleName);
+            Assert.assertEquals(personalDetailsDB.get("emp_lastname"),lastName);
+            Assert.assertEquals(personalDetailsDB.get("employee_id"),employeeId);
+            Assert.assertEquals(personalDetailsDB.get("emp_other_id"),otherID);
+            Assert.assertEquals(personalDetailsDB.get("emp_dri_lice_exp_date"),licenseExpiryDate);
+            Assert.assertEquals(personalDetailsDB.get("name"),nationality);
+            Assert.assertEquals(personalDetailsDB.get("emp_marital_status"),maritalStatus);
+            Assert.assertEquals(personalDetailsDB.get("emp_birthday"),dateOfBirth);
+        }
+    }
+//    @Test
+    public void TC_24_EditScreen_Funtion_Valiate_Driver_License_Number(Method method) {
+
+        dashboadPage = PageGeneratorManager.getDashboardPage(driver);
+        dashboadPage.openPageUrl(driver, GlobalConstants.getGlobalConstants().geteditURl());
+
+        personalDetails=PageGeneratorManager.getPersonalDetailsPage(driver);
+        personalDetails.waitForSpinnerIconInvisible();
+        employeeId = personalDetails.getValueInTextBoxByLabel("Employee Id");
+
+        personalDetails.enterToTextboxByName(firstName, "firstName");
+        personalDetails.enterToTextboxByName(lastName, "lastName");
+        personalDetails.enterToTextboxByName(middleName, "middleName");
+        otherID=employeeId;
         personalDetails.enterToTextboxByLabel(otherID, "Other Id");
         personalDetails.enterToDriverNumberTextbox(driverLicenseNumber);
         personalDetails.enterToCanlenderTextboxByLabel(licenseExpiryDate,"License Expiry Date");
@@ -954,20 +1008,20 @@ public class EmployeeManagement extends BaseTest {
         personalDetails.enterToCanlenderTextboxByLabel(dateOfBirth,"Date of Birth");
         personalDetails.clickToRadioByValue(gender);
         //maxlength+ 1
-        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 193).replace("\n", "<br>"));
-        personalDetails.enterToTextboxByName(excelConfig.getCellData("Data", 193), "middleName");
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 246).replace("\n", "<br>"));
+        personalDetails.enterToDriverNumberTextbox(excelConfig.getCellData("Data", 246));
         personalDetails.clickToSaveButtonByLabel("Personal Details");
         //Check save fail
-        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 194).replace("\n", "<br>"));
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 247).replace("\n", "<br>"));
         Assert.assertTrue(personalDetails.isSuccessMessageNotDisplayed("Successfully Updated"));
 
         //minlegth, minlength+1, maxlength-1, maxlength,ki tu dac biet, tieng viet co dau,
-        for (int i = 195; i <= 207; i+=2) {
+        for (int i = 248; i <= 260; i+=2) {
             ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", i).replace("\n", "<br>"));
-            middleName = excelConfig.getCellData("Data", i);
-            personalDetails.enterToTextboxByName(middleName, "middleName");
-            ActualValueMiddleName = personalDetails.getValueInTextBoxByName("middleName");
-            Assert.assertEquals(ActualValueMiddleName, middleName);
+            driverLicenseNumber = excelConfig.getCellData("Data", i);
+            personalDetails.enterToDriverNumberTextbox(driverLicenseNumber);
+            ActualValuedriverLicenseNumber = personalDetails.getValueInTextBoxByLabel("Other Id");
+            Assert.assertEquals(ActualValuedriverLicenseNumber, ActualValuedriverLicenseNumber);
 
             ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", i+1).replace("\n", "<br>"));
             //Check DB..
@@ -986,7 +1040,163 @@ public class EmployeeManagement extends BaseTest {
         }
     }
 
+    //@Test
+    // TC 25: trên web đang gap bug
+    public void TC_25_Combobox_Valiate_Nationality(Method method) {
+        // Check cac gia tri va thư tu các gia tri
+        dashboadPage = PageGeneratorManager.getDashboardPage(driver);
+        dashboadPage.openPageUrl(driver, GlobalConstants.getGlobalConstants().geteditURl());
 
+        personalDetails=PageGeneratorManager.getPersonalDetailsPage(driver);
+        personalDetails.waitForSpinnerIconInvisible();
+
+        personalDetails.clickToDropList("Nationality");
+
+        listExpectedValueDroplist = personalDetails.getListValueDroplistFromDB();
+        listActualValueDroplist = personalDetails.getListActualValueDropList();
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 263).replace("\n", "<br>"));
+        for (int i = 0; i < listExpectedValueDroplist.size(); i++) {
+            Assert.assertEquals(listActualValueDroplist.get(i), listExpectedValueDroplist.get(i));
+        }
+    }
+
+   // @Test - Case nay dang khong fix dc, thoi de sau
+    public void TC_26_Combobox_Date(Method method) throws InterruptedException {
+        dashboadPage = PageGeneratorManager.getDashboardPage(driver);
+        dashboadPage.openPageUrl(driver, GlobalConstants.getGlobalConstants().geteditURl());
+
+        personalDetails=PageGeneratorManager.getPersonalDetailsPage(driver);
+        personalDetails.waitForSpinnerIconInvisible();
+        employeeId = personalDetails.getValueInTextBoxByLabel("Employee Id");
+        otherID=employeeId;
+        personalDetails.enterToTextboxByLabel(otherID, "Other Id");
+        personalDetails.enterToDriverNumberTextbox(driverLicenseNumber);
+        personalDetails.selectToDropdownByLabel(nationality,"Nationality");
+        personalDetails.selectToDropdownByLabel(maritalStatus,"Marital Status");
+        personalDetails.enterToCanlenderTextboxByLabel(licenseExpiryDate,"License Expiry Date");
+        personalDetails.clickToRadioByValue(gender);
+
+        personalDetails.enterToTextboxByName(firstName, "firstName");
+        personalDetails.enterToTextboxByName(middleName, "middleName");
+        personalDetails.enterToTextboxByName(lastName, "lastName");
+
+
+
+        //Cac case invalid
+//        for (int i = 265; i <= 293; i+=2) {
+//            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", i).replace("\n", "<br>"));
+//            personalDetails.enterToTextboxByLabel(excelConfig.getCellData("Data", i), "Date of Birth");
+//            personalDetails.scrollCalanderOnDown( "Date of Birth");
+//            personalDetails.clickIconCanlanderByLabel("Date of Birth");
+//            personalDetails.isErrorMessageDisplay(excelConfig.getCellData("Output", i));
+//
+//            //Check save fail
+//            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", i+2).replace("\n", "<br>"));
+//            personalDetails.clickToSaveButtonByLabel("Personal Details");
+//            Assert.assertTrue(personalDetails.isSuccessMessageNotDisplayed("Successfully Updated"));
+//        }
+
+        // Cac case valid
+        for (int i = 295; i <= 325; i+=2) {
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", i).replace("\n", "<br>"));
+            dateOfBirth=excelConfig.getCellData("Data", i);
+            personalDetails.enterToTextboxByLabel(dateOfBirth, "Date of Birth");
+            personalDetails.clickLabel("Date of Birth");
+            personalDetails.scrollButtonOnTopByName(" Save ");
+            personalDetails.clickButtonByJSAndName(" Save ");
+            Thread.sleep(5000);
+            System.out.println("ssssss"+ i);
+            System.out.println("rrr" +personalDetails.getValueInTextBoxByLabel("Date of Birth"));
+            System.out.println("hhhh  "+dateOfBirth);
+            Assert.assertEquals(personalDetails.getValueInTextBoxByLabel("Date of Birth"), dateOfBirth);
+
+            //Check DB..
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", i+1).replace("\n", "<br>"));
+
+            Assert.assertTrue(personalDetails.isSuccessMessageDisplayed("Successfully Updated"));
+            Map<String, String> personalDetailsDB =personalDetails.personalDetailsFromDB(employeeId);
+            Assert.assertEquals(personalDetailsDB.get("emp_firstname"),firstName);
+            Assert.assertEquals(personalDetailsDB.get("emp_middle_name"),middleName);
+            Assert.assertEquals(personalDetailsDB.get("emp_lastname"),lastName);
+            Assert.assertEquals(personalDetailsDB.get("employee_id"),employeeId);
+            Assert.assertEquals(personalDetailsDB.get("emp_other_id"),otherID);
+            Assert.assertEquals(personalDetailsDB.get("emp_dri_lice_exp_date"),licenseExpiryDate);
+            Assert.assertEquals(personalDetailsDB.get("name"),nationality);
+            Assert.assertEquals(personalDetailsDB.get("emp_marital_status"),maritalStatus);
+            Assert.assertEquals(personalDetailsDB.get("emp_birthday"),dateOfBirth);
+        }
+
+        //Kiem tra hoat dong cuar canlender, khi chon calender se dong lai
+        personalDetails.scrollCalanderOnDown( "Date of Birth");
+        personalDetails.clickCanlanderIconByLabel("Date of Birth");
+        personalDetails.selectDayInCalender(Integer.toString(parseInt(personalDetails.getToday().substring(8)) + 1));
+
+        // verify canlender dong lai
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 327).replace("\n", "<br>"));
+        personalDetails.isButtonInCanalenerDisplay("Close");
+
+        //Check hoat dong cuua button close
+        personalDetails.clickCanlanderIconByLabel("Date of Birth");
+        personalDetails.clickButtonInCanlender("Close");
+
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 328).replace("\n", "<br>"));
+        personalDetails.isButtonInCanalenerDisplay("Close");
+
+        //Check hoat dong cua button Today
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 329).replace("\n", "<br>"));
+
+        personalDetails.clickCanlanderIconByLabel("Date of Birth");
+        personalDetails.clickButtonInCanlender("Today");
+        Assert.assertEquals(personalDetails.getValueInTextBoxByLabel("Date of Birth"), personalDetails.getToday());
+
+        //Check hoat dong cua button clear
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 330).replace("\n", "<br>"));
+
+        personalDetails.enterToTextboxByLabel("asdfasdfds", "Date of Birth");
+        personalDetails.scrollCalanderOnTop( "Date of Birth");
+        personalDetails.clickCanlanderIconByLabel("Date of Birth");
+        personalDetails.clickButtonInCanlender("Clear");
+        Assert.assertEquals(personalDetails.getValueInTextBoxByLabel("Date of Birth"), null);
+
+        //Trong textbox chua co gia tri
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 331).replace("\n", "<br>"));
+
+        personalDetails.scrollCalanderOnDown( "Date of Birth");
+        personalDetails.clickCanlanderIconByLabel("Date of Birth");
+
+        // focus vao nggya hien tai
+        Assert.assertEquals(personalDetails.getColorOfTodayDay(Integer.toString(parseInt(personalDetails.getToday().substring(8)))), excelConfig.getCellData("Output", 331));
+
+        //Kiem tra focus trong calender khi co dư lieu
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 332).replace("\n", "<br>"));
+
+        personalDetails.enterToTextboxByLabel(excelConfig.getCellData("Data", 332), "Date of Birth");
+        personalDetails.scrollCalanderOnDown( "Date of Birth");
+        personalDetails.clickIconCanlanderByLabel("Date of Birth");
+        personalDetails.scrollCalanderOnDown( "Date of Birth");
+
+        Assert.assertEquals(personalDetails.getColorOfFocusDay(Integer.toString(parseInt(excelConfig.getCellData("Data", 332).substring(8)))), excelConfig.getCellData("Output", 332));
+
+
+    }
+    @Test
+    public void TC_26_RadioButton(Method method){
+        dashboadPage = PageGeneratorManager.getDashboardPage(driver);
+        dashboadPage.openPageUrl(driver, GlobalConstants.getGlobalConstants().geteditURl());
+
+        personalDetails=PageGeneratorManager.getPersonalDetailsPage(driver);
+        personalDetails.waitForSpinnerIconInvisible();
+
+        //kiem tra chon radio
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 334).replace("\n", "<br>"));
+        personalDetails.selectRadioButtonByValue("Male");
+        Assert.assertEquals(personalDetails.isRadioButtonSelectedByValue("Male"), true);
+        //kiem tra bo chon
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 335).replace("\n", "<br>"));
+        personalDetails.selectRadioButtonByValue("Female");
+        Assert.assertEquals(personalDetails.isRadioButtonSelectedByValue("Male"), false);
+
+    }
     // ..........End Edit Screen
 
 
@@ -1248,8 +1458,8 @@ public class EmployeeManagement extends BaseTest {
     private Map<String, String> employeeDB;
     private ExcelConfig excelConfig;
     private String actualLabelName, expectedLabelName, licenseExpiryDate, comment, actualPlaceholder, expectedPlaceholder;
-    private String actualColor, expectedColor, ActualValueFirstName, ActualValueMiddleName, ActualValuelastName, ActualValueUserName, ActualValuePassword,ActualValueLastName;
-    private List<String> ActualListLabelName, ActualListPlaceholder, ActualListErrorMessageColor;
+    private String actualColor, expectedColor, ActualValueFirstName, ActualValueMiddleName, ActualValuelastName, ActualValueUserName, ActualValuePassword,ActualValueLastName,ActualValueotherID,ActualValuedriverLicenseNumber;
+    private List<String> ActualListLabelName, ActualListPlaceholder, ActualListErrorMessageColor,listExpectedValueDroplist,listActualValueDroplist;
 
     private String Anh1 = "Anh1.jpg";
     private String[] fileNames = {Anh1};

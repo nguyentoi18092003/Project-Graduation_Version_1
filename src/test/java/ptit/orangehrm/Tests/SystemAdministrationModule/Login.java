@@ -1,4 +1,4 @@
-package ptit.orangehrm.Tests.SystemAdminModule;
+package ptit.orangehrm.Tests.SystemAdministrationModule;
 
 import commons.BaseTest;
 import commons.PageGeneratorManager;

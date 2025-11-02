@@ -52,8 +52,9 @@ public class BaseElement extends BasePage {
         scrollToElementOnDown(driver,BaseElementUI.DYNAMIC_TEXTBOX_BY_NAME,name);
     }
     public void scrollButtonOnTopByName(String name){
-        scrollToElementOnDown(driver,BaseElementUI.BUTTON_BY_NAME, name);
+        scrollToElementOnTop(driver,BaseElementUI.BUTTON_BY_NAME, name);
     }
+
 
 
     public void waitForSpinnerIconInvisible() {
@@ -214,6 +215,11 @@ public class BaseElement extends BasePage {
         clickToElement(driver,BaseElementUI.DYNAMIC_CANLENDER_TEXTBOX_BY_LABEL,label);
 
     }
+    public void clickIconCanlanderByLabel(String label){
+        waitForElementClickable(driver,BaseElementUI.DYNAMIC_ICON_CANLENDER_TEXTBOX_BY_LABEL,label);
+        clickToElement(driver,BaseElementUI.DYNAMIC_ICON_CANLENDER_TEXTBOX_BY_LABEL,label);
+
+    }
     public void isButtonInCanalenerDisplay(String nameButton){
         waitForElementVisible(driver,BaseElementUI.DYNAMIC_CALENDER_BUTTON, nameButton);
         isElementDisplayed(driver, BaseElementUI.DYNAMIC_CALENDER_BUTTON,nameButton);
@@ -319,6 +325,19 @@ public class BaseElement extends BasePage {
     public String getDisplayname(){
         this.waitForElementVisible(driver, BaseElementUI.DISPLAY_NAME);
         return getElementText(driver, BaseElementUI.DISPLAY_NAME);
+    }
+
+    public void clickToDropList(String label) {
+        waitForElementClickable(driver, BaseElementUI.DYNAMIC_DROPDOWN_PARENT_BY_LABEL, label);
+        clickToElement(driver, BaseElementUI.DYNAMIC_DROPDOWN_PARENT_BY_LABEL, label);
+    }
+    public void clickLabel(String label) {
+        waitForElementClickable(driver, BaseElementUI.DYNAMIC_LABEL, label);
+        clickToElementByJS(driver, BaseElementUI.DYNAMIC_LABEL, label);
+    }
+    public void selectDayInCalender(String day){
+        waitForElementClickable(driver,BaseElementUI.DYNAMIC_DAY_IN_CALENDER, day);
+        clickToElement(driver,BaseElementUI.DYNAMIC_DAY_IN_CALENDER, day);
     }
 
 

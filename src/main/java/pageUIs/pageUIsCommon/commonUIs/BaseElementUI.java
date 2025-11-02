@@ -27,6 +27,7 @@ public class BaseElementUI {
     public static final String DYNAMIC_ADD_BUTTON_PIM_BY_LABEL = "xpath=//h6[text()='%s']/following-sibling::button";
     public static final String DYNAMIC_ADD_BUTTON_ADMIN_BY_LABEL = "xpath=//h6[text()='%s']/following-sibling::div/button";
     public static final String DYNAMIC_CANLENDER_TEXTBOX_BY_LABEL = "xpath=//label[text()='%s']/parent::div/following-sibling::div//input";
+    public static final String DYNAMIC_ICON_CANLENDER_TEXTBOX_BY_LABEL = "xpath=//label[text()='%s']/parent::div/following-sibling::div//i";
     public static final String DYNAMIC_DROPDOWN_PARENT_BY_LABEL="xpath=//label[text()='%s']/parent::div/following-sibling::div//i";
     public static final String DYNAMIC_DROPDOWN_CHILDREN_ITEM_BY_LABEL="xpath=//label[text()='%s']/parent::div/following-sibling::div//div[@role='listbox']/div[@role='option']";
     public static final String DYNAMIC_VALUE_ITEM_DROPDOWN_BY_NAME="xpath=//label[text()='%s']/parent::div/following-sibling::div//div[@role='listbox']/div/span[text()='%s']";

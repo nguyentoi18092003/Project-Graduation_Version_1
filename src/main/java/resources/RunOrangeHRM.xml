@@ -23,7 +23,7 @@
             <!--                <class name="com_orangehrm_admin.Admin_04_Job_Categories"></class>-->
 <!--                        <class name="ptit.orangehrm.intergrationTests.Pim_01_Add_Employee"></class>-->
             <!--            <class name="ptit.orangehrm.intergrationTests.Pim_And_MyInfo"></class>-->
-<!--                        <class name="ptit.orangehrm.Tests.SystemAdminModule.Login"></class>-->
+<!--                        <class name="ptit.orangehrm.Tests.SystemAdministrationModule..Login"></class>-->
 <!--            <class name="ptit.orangehrm.Tests.TimeModule.MyTimesheet"></class>-->
 
 <!--            <class name="ptit.orangehrm.Tests.TimeModule.PunchIn_PunchOut"></class>-->
