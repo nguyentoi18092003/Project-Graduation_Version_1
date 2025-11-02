@@ -669,6 +669,54 @@ public class MyTimesheet extends BaseTest {
 
 
     }
+
+    @Test
+    public void TC_10_Edit_TimeSheet_Fail_When_Dupicate_Project(Method method) {
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "rrrr");
+
+        myTimesheetPageC.clickButtonByName(" Edit ");
+        //Khoi tao trang Edit Time Sheet Page
+        editTimesheetPageC = PageGeneratorManager.getEditTimesheetPageObjectC(driver);
+
+        //Nhap tat ca du lieu vao bang
+        for (int i = 0; i < projectToSearchs.size(); i++) {
+            projectToSearch = projectToSearchs.get(i);
+            project = projects.get(0);
+            activity = activitys.get(0);
+            tue = Tues.get(0);
+            wed = Weds.get(0);
+            thu = Thus.get(0);
+            fri = Fris.get(0);
+            sat = Sats.get(0);
+            sun = Suns.get(0);
+            mon = Mons.get(0);
+
+            //Tam thoi de if o, khi nao xu li duoc cai backkup data thì xoa di
+            if (i != 0) {
+                editTimesheetPageC.clickAddRowButton();
+            }
+            editTimesheetPageC.searchAndSelectInCombobox("Project", Integer.toString(i + 1), projectToSearch, project);
+
+            editTimesheetPageC.selectItemInDropdownInTable("Activity", Integer.toString(i + 1), activity);
+            editTimesheetPageC.enterToTextboxInTable("Tue", Integer.toString(i + 1), tue);
+            editTimesheetPageC.enterToTextboxInTable("Wed", Integer.toString(i + 1), wed);
+            editTimesheetPageC.enterToTextboxInTable("Thu", Integer.toString(i + 1), thu);
+            editTimesheetPageC.enterToTextboxInTable("Fri", Integer.toString(i + 1), fri);
+            editTimesheetPageC.enterToTextboxInTable("Sat", Integer.toString(i + 1), sat);
+            editTimesheetPageC.enterToTextboxInTable("Sun", Integer.toString(i + 1), sun);
+            editTimesheetPageC.enterToTextboxInTable("Mon", Integer.toString(i + 1), mon);
+
+        }
+        Map<String, String> recordDBTruoc = editTimesheetPageC.recordFromDB("0347");
+        editTimesheetPageC.clickButtonByName(" Save ");
+        Map<String, String> recordDBSau = editTimesheetPageC.recordFromDB("0347");
+
+        //Check DB so luong ban ghi truoc va sau
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "dd");
+        Assert.assertEquals(recordDBTruoc.size(),recordDBSau.size());
+
+        //Check not display timeSheet Screen
+    }
 @AfterClass
 public void afterClass() {
     closeBrowser();
