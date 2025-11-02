@@ -17,6 +17,8 @@ import utilities.ExcelConfig;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
@@ -85,8 +87,263 @@ public class MyTimesheet extends BaseTest {
         myTimesheetPageC=PageGeneratorManager.getMyTimesheetPageObjectClient(driver);
     }
 
-    @Test
-    public void TC_01_Project_Timesheet(Method method) {
+    //@Test
+    public void TC_01_UI_Verify_the_color_of_error_message(Method method){
+        myTimesheetPageC.clickButtonByName(" Edit ");
+        //Khoi tao trang Edit Time Sheet Page
+        editTimesheetPageC=PageGeneratorManager.getEditTimesheetPageObjectC(driver);
+        editTimesheetPageC.enterToTextboxInTable("Tue","1", excelConfig.getCellData("Data",  5));
+        editTimesheetPageC.enterToTextboxInTable("Wed","1", excelConfig.getCellData("Data",  6));
+        editTimesheetPageC.enterToTextboxInTable("Thu","1", excelConfig.getCellData("Data",  7));
+        editTimesheetPageC.enterToTextboxInTable("Fri","1", excelConfig.getCellData("Data",  8));
+        editTimesheetPageC.enterToTextboxInTable("Sat","1", excelConfig.getCellData("Data",  9));
+        editTimesheetPageC.enterToTextboxInTable("Sun","1", excelConfig.getCellData("Data",  10));
+        editTimesheetPageC.enterToTextboxInTable("Mon","1", excelConfig.getCellData("Data",  11));
+        //Click Luu
+        editTimesheetPageC.clickButtonByName(" Save ");
+        ActualListErrorMessageColor = editTimesheetPageC.getListListErrorMessageColer();
+
+        for (int i = 0; i <= ActualListErrorMessageColor.size() - 1; i++) {
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", i ).replace("\n", "<br>"));
+
+            actualColor = ActualListErrorMessageColor.get(i);
+
+            expectedColor = excelConfig.getCellData("Output", i+3);
+            Assert.assertEquals(actualColor, expectedColor);
+        }
+    }
+    //@Test
+    public void TC_02_Function_Validate_Tue_Column(Method method){
+        myTimesheetPageC.clickButtonByName(" Edit ");
+        //Khoi tao trang Edit Time Sheet Page
+        editTimesheetPageC=PageGeneratorManager.getEditTimesheetPageObjectC(driver);
+        editTimesheetPageC.waitForSpinnerIconInvisible();
+        editTimesheetPageC.searchAndSelectInCombobox("Project","1",projectToSearchs.get(0),projects.get(0));
+
+        editTimesheetPageC.selectItemInDropdownInTable("Activity","1",activitys.get(0) );
+
+        editTimesheetPageC.enterToTextboxInTable("Thu","1", Thus.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Fri","1", Fris.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sat","1", Sats.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sun","1", Suns.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Mon","1", Mons.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Wed","1", Weds.get(0));
+
+        for(int i=13;i<=17;i+=2){
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(),"nnn");
+            //3.5. Kiem tra duoi DB
+            Map<String, String> recordDBTruoc = editTimesheetPageC.recordFromDB("0347");
+            editTimesheetPageC.enterToTextboxInTable("Tue","1",  excelConfig.getCellData("Data",  i));
+            editTimesheetPageC.clickButtonByName(" Save ");
+            Map<String, String> recordDBSau = editTimesheetPageC.recordFromDB("0347");
+
+            //Check DB so luong ban ghi truoc va sau
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "dd");
+            Assert.assertEquals(recordDBTruoc.size(),recordDBSau.size());
+        }
+
+    }
+    //@Test
+    public void TC_03_Function_Validate_Wed_Column(Method method){
+        myTimesheetPageC.clickButtonByName(" Edit ");
+        //Khoi tao trang Edit Time Sheet Page
+        editTimesheetPageC=PageGeneratorManager.getEditTimesheetPageObjectC(driver);
+        editTimesheetPageC.waitForSpinnerIconInvisible();
+        editTimesheetPageC.searchAndSelectInCombobox("Project","1",projectToSearchs.get(0),projects.get(0));
+
+        editTimesheetPageC.selectItemInDropdownInTable("Activity","1",activitys.get(0) );
+
+        editTimesheetPageC.enterToTextboxInTable("Tue","1", Tues.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Thu","1", Thus.get(0));
+//        editTimesheetPageC.enterToTextboxInTable("Wed","1", Mons.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Fri","1", Fris.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sat","1", Sats.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sun","1", Suns.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Mon","1", Mons.get(0));
+
+
+        for(int i=20;i<=24;i+=2){
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(),"nnn");
+            //3.5. Kiem tra duoi DB
+            Map<String, String> recordDBTruoc = editTimesheetPageC.recordFromDB("0347");
+            editTimesheetPageC.enterToTextboxInTable("Wed","1",  excelConfig.getCellData("Data",  i));
+            editTimesheetPageC.clickButtonByName(" Save ");
+            Map<String, String> recordDBSau = editTimesheetPageC.recordFromDB("0347");
+
+            //Check DB so luong ban ghi truoc va sau
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "dd");
+            Assert.assertEquals(recordDBTruoc.size(),recordDBSau.size());
+        }
+
+    }
+    //@Test
+    public void TC_04_Function_Validate_Thu_Column(Method method){
+        myTimesheetPageC.clickButtonByName(" Edit ");
+        //Khoi tao trang Edit Time Sheet Page
+        editTimesheetPageC=PageGeneratorManager.getEditTimesheetPageObjectC(driver);
+        editTimesheetPageC.waitForSpinnerIconInvisible();
+        editTimesheetPageC.searchAndSelectInCombobox("Project","1",projectToSearchs.get(0),projects.get(0));
+
+        editTimesheetPageC.selectItemInDropdownInTable("Activity","1",activitys.get(0) );
+
+        editTimesheetPageC.enterToTextboxInTable("Tue","1", Tues.get(0));
+//        editTimesheetPageC.enterToTextboxInTable("Thu","1", Thus.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Wed","1", Mons.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Fri","1", Fris.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sat","1", Sats.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sun","1", Suns.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Mon","1", Mons.get(0));
+
+
+        for(int i=27;i<=31;i+=2){
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(),"nnn");
+            //3.5. Kiem tra duoi DB
+            Map<String, String> recordDBTruoc = editTimesheetPageC.recordFromDB("0347");
+            editTimesheetPageC.enterToTextboxInTable("Thu","1",  excelConfig.getCellData("Data",  i));
+            editTimesheetPageC.clickButtonByName(" Save ");
+            Map<String, String> recordDBSau = editTimesheetPageC.recordFromDB("0347");
+
+            //Check DB so luong ban ghi truoc va sau
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "dd");
+            Assert.assertEquals(recordDBTruoc.size(),recordDBSau.size());
+        }
+
+    }
+    //@Test
+    public void TC_05_Function_Validate_Fri_Column(Method method){
+        myTimesheetPageC.clickButtonByName(" Edit ");
+        //Khoi tao trang Edit Time Sheet Page
+        editTimesheetPageC=PageGeneratorManager.getEditTimesheetPageObjectC(driver);
+        editTimesheetPageC.waitForSpinnerIconInvisible();
+        editTimesheetPageC.searchAndSelectInCombobox("Project","1",projectToSearchs.get(0),projects.get(0));
+
+        editTimesheetPageC.selectItemInDropdownInTable("Activity","1",activitys.get(0) );
+
+        editTimesheetPageC.enterToTextboxInTable("Tue","1", Tues.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Thu","1", Thus.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Wed","1", Mons.get(0));
+//        editTimesheetPageC.enterToTextboxInTable("Fri","1", Fris.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sat","1", Sats.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sun","1", Suns.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Mon","1", Mons.get(0));
+
+
+        for(int i=34;i<=38;i+=2){
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(),"nnn");
+            //3.5. Kiem tra duoi DB
+            Map<String, String> recordDBTruoc = editTimesheetPageC.recordFromDB("0347");
+            editTimesheetPageC.enterToTextboxInTable("Fri","1",  excelConfig.getCellData("Data",  i));
+            editTimesheetPageC.clickButtonByName(" Save ");
+            Map<String, String> recordDBSau = editTimesheetPageC.recordFromDB("0347");
+
+            //Check DB so luong ban ghi truoc va sau
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "dd");
+            Assert.assertEquals(recordDBTruoc.size(),recordDBSau.size());
+        }
+
+    }
+    //@Test
+    public void TC_06_Function_Validate_Sat_Column(Method method){
+        myTimesheetPageC.clickButtonByName(" Edit ");
+        //Khoi tao trang Edit Time Sheet Page
+        editTimesheetPageC=PageGeneratorManager.getEditTimesheetPageObjectC(driver);
+        editTimesheetPageC.waitForSpinnerIconInvisible();
+        editTimesheetPageC.searchAndSelectInCombobox("Project","1",projectToSearchs.get(0),projects.get(0));
+
+        editTimesheetPageC.selectItemInDropdownInTable("Activity","1",activitys.get(0) );
+
+        editTimesheetPageC.enterToTextboxInTable("Tue","1", Tues.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Thu","1", Thus.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Wed","1", Mons.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Fri","1", Fris.get(0));
+//        editTimesheetPageC.enterToTextboxInTable("Sat","1", Sats.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sun","1", Suns.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Mon","1", Mons.get(0));
+
+
+        for(int i=41;i<=45;i+=2){
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(),"nnn");
+            //3.5. Kiem tra duoi DB
+            Map<String, String> recordDBTruoc = editTimesheetPageC.recordFromDB("0347");
+            editTimesheetPageC.enterToTextboxInTable("Sat","1",  excelConfig.getCellData("Data",  i));
+            editTimesheetPageC.clickButtonByName(" Save ");
+            Map<String, String> recordDBSau = editTimesheetPageC.recordFromDB("0347");
+
+            //Check DB so luong ban ghi truoc va sau
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "dd");
+            Assert.assertEquals(recordDBTruoc.size(),recordDBSau.size());
+        }
+
+    }
+    //@Test
+    public void TC_07_Function_Validate_Sun_Column(Method method){
+        myTimesheetPageC.clickButtonByName(" Edit ");
+        //Khoi tao trang Edit Time Sheet Page
+        editTimesheetPageC=PageGeneratorManager.getEditTimesheetPageObjectC(driver);
+        editTimesheetPageC.waitForSpinnerIconInvisible();
+        editTimesheetPageC.searchAndSelectInCombobox("Project","1",projectToSearchs.get(0),projects.get(0));
+
+        editTimesheetPageC.selectItemInDropdownInTable("Activity","1",activitys.get(0) );
+
+        editTimesheetPageC.enterToTextboxInTable("Tue","1", Tues.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Thu","1", Thus.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Wed","1", Mons.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Fri","1", Fris.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sat","1", Sats.get(0));
+//        editTimesheetPageC.enterToTextboxInTable("Sun","1", Suns.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Mon","1", Mons.get(0));
+
+
+        for(int i=48;i<=52;i+=2){
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(),"nnn");
+            //3.5. Kiem tra duoi DB
+            Map<String, String> recordDBTruoc = editTimesheetPageC.recordFromDB("0347");
+            editTimesheetPageC.enterToTextboxInTable("Sun","1",  excelConfig.getCellData("Data",  i));
+            editTimesheetPageC.clickButtonByName(" Save ");
+            Map<String, String> recordDBSau = editTimesheetPageC.recordFromDB("0347");
+
+            //Check DB so luong ban ghi truoc va sau
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "dd");
+            Assert.assertEquals(recordDBTruoc.size(),recordDBSau.size());
+        }
+
+    }
+    //@Test
+    public void TC_08_Function_Validate_Mon_Column(Method method){
+        myTimesheetPageC.clickButtonByName(" Edit ");
+        //Khoi tao trang Edit Time Sheet Page
+        editTimesheetPageC=PageGeneratorManager.getEditTimesheetPageObjectC(driver);
+        editTimesheetPageC.waitForSpinnerIconInvisible();
+        editTimesheetPageC.searchAndSelectInCombobox("Project","1",projectToSearchs.get(0),projects.get(0));
+
+        editTimesheetPageC.selectItemInDropdownInTable("Activity","1",activitys.get(0) );
+
+        editTimesheetPageC.enterToTextboxInTable("Tue","1", Tues.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Thu","1", Thus.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Wed","1", Mons.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Fri","1", Fris.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sat","1", Sats.get(0));
+        editTimesheetPageC.enterToTextboxInTable("Sun","1", Suns.get(0));
+//        editTimesheetPageC.enterToTextboxInTable("Mon","1", Mons.get(0));
+
+
+        for(int i=55;i<=60;i+=2){
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(),"nnn");
+            //3.5. Kiem tra duoi DB
+            Map<String, String> recordDBTruoc = editTimesheetPageC.recordFromDB("0347");
+            editTimesheetPageC.enterToTextboxInTable("Mon","1",  excelConfig.getCellData("Data",  i));
+            editTimesheetPageC.clickButtonByName(" Save ");
+            Map<String, String> recordDBSau = editTimesheetPageC.recordFromDB("0347");
+
+            //Check DB so luong ban ghi truoc va sau
+            ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "dd");
+            Assert.assertEquals(recordDBTruoc.size(),recordDBSau.size());
+        }
+
+    }
+
+    //@Test
+    public void TC_09_Full_Luong_Project_Timesheet(Method method) {
         ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(),"rrrr");
 
         myTimesheetPageC.clickButtonByName(" Edit ");
@@ -449,7 +706,8 @@ public void afterClass() {
 
     private ArrayList<String> Mons = new ArrayList<>();
     private ArrayList<String> MonsE = new ArrayList<>();
-
+    private String actualColor, expectedColor;
+    private List<String> ActualListErrorMessageColor;
     private String actualProject,actualActivity,actualTue,actualWed, actualThu,actualFri,actualSat,actualSun,actualMon;
     private String projectToSearch,project, activity, tue, wed, thu, fri, sat, sun, mon;
     private  String sumTotalColumActual="00:00",sumTotalColumExpected="00:00", sumTueColumExpected="00:00",sumTueColumActual="00:00";
