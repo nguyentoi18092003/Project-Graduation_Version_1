@@ -4,8 +4,13 @@ import org.openqa.selenium.WebDriver;
 import pageObjects.pageObjectCommon.subMenuObjects.SubMenuAdminPageObject;
 import pageObjects.pageObjectCommon.subMenuObjects.SubMenuTimePageObject;
 import pageUIs.pageUIsClient.MyTimesheetUIC;
+import utilities.MySQLConnUtils;
 
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MyTimesheetPageObjectC extends SubMenuTimePageObject {
     WebDriver driver;
@@ -54,5 +59,53 @@ public class MyTimesheetPageObjectC extends SubMenuTimePageObject {
         String cellValue=getElementText(driver,MyTimesheetUIC.CELL_VALUE_IN_TABLE,String.valueOf(lastRow),String.valueOf(columnIndex));
         return cellValue;
     }
-}
+    public Map<String, String> PreCleanStep() {
+        Map<String, String> result = new LinkedHashMap<>();
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+            conn = MySQLConnUtils.getMySQLConnection();
+            conn.setAutoCommit(false); // ✅ bắt đầu transaction
+
+            // Danh sách các bảng cần xóa (theo thứ tự quan hệ)
+            String[] tables = {
+                    "ohrm_timesheet_item",
+                    "ohrm_timesheet_action_log",
+                    "ohrm_timesheet"
+            };
+
+            // Thực hiện xóa từng bảng
+            for (String table : tables) {
+                String sql = "DELETE FROM " + table;
+                pstm = conn.prepareStatement(sql);
+                int affected = pstm.executeUpdate();
+                result.put(table, affected + " rows deleted");
+                pstm.close(); // đóng PreparedStatement mỗi vòng lặp
+            }
+
+            conn.commit(); // ✅ commit transaction khi mọi thứ thành công
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (conn != null) {
+                try {
+                    conn.rollback(); // ⚠️ rollback nếu có lỗi
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
+        } finally {
+            try {
+                if (pstm != null) pstm.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+};
+
 

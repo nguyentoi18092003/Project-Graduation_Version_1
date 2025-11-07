@@ -85,6 +85,10 @@ public class MyTimesheet extends BaseTest {
         dashboadPageC.clickToSidebarLinkByText("Time");
         //Khoi tao trang MyTime
         myTimesheetPageC=PageGeneratorManager.getMyTimesheetPageObjectClient(driver);
+
+        //Clean để đảm bảo luôn tạo được dữ liệu
+        myTimesheetPageC.PreCleanStep();
+        myTimesheetPageC.refreshCurrentPage(driver);
     }
 
     //@Test
@@ -671,7 +675,7 @@ public class MyTimesheet extends BaseTest {
     }
 
     @Test
-    public void TC_10_Edit_TimeSheet_Fail_When_Dupicate_Project(Method method) {
+    public void TC_10_Edit_TimeSheet_Fail_When_Dupicate_Activity(Method method) {
         ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "rrrr");
 
         myTimesheetPageC.clickButtonByName(" Edit ");
@@ -679,8 +683,8 @@ public class MyTimesheet extends BaseTest {
         editTimesheetPageC = PageGeneratorManager.getEditTimesheetPageObjectC(driver);
 
         //Nhap tat ca du lieu vao bang
-        for (int i = 0; i < projectToSearchs.size(); i++) {
-            projectToSearch = projectToSearchs.get(i);
+        for (int i = 0; i < 2; i++) {
+            projectToSearch = projectToSearchs.get(0);
             project = projects.get(0);
             activity = activitys.get(0);
             tue = Tues.get(0);
@@ -715,13 +719,14 @@ public class MyTimesheet extends BaseTest {
         ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "dd");
         Assert.assertEquals(recordDBTruoc.size(),recordDBSau.size());
 
-        //Check not display timeSheet Screen
+        //Check not display toast message
+        editTimesheetPageC.isSuccessMessageNotDisplayed("Saved Succesfully");
     }
-@AfterClass
-public void afterClass() {
-    closeBrowser();
-
-}
+//@AfterClass
+//public void afterClass() {
+//    closeBrowser();
+//
+//}
     private ExcelConfig excelConfig;
     private String disPlayName,comment;
 
