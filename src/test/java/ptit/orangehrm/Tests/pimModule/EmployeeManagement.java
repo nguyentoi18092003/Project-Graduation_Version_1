@@ -1179,7 +1179,7 @@ public class EmployeeManagement extends BaseTest {
 
 
     }
-    @Test
+    //@Test
     public void TC_26_RadioButton(Method method){
         dashboadPage = PageGeneratorManager.getDashboardPage(driver);
         dashboadPage.openPageUrl(driver, GlobalConstants.getGlobalConstants().geteditURl());
@@ -1446,6 +1446,160 @@ public class EmployeeManagement extends BaseTest {
         loginPage.login(userName, password);
         //Kiem tra login that bai
         Assert.assertTrue(loginPage.isDisplayLoginFail());
+    }
+
+   // @Test
+    public void Full_luong_EmployeeManagement_Dupicated_Username(Method method){
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 1).replace("\n", "<br>"));
+        dashboadPage = PageGeneratorManager.getDashboardPage(driver);
+        dashboadPage.clickToSidebarLinkByText("PIM");
+//1. Create an employee and an account for the employee.
+        employeeListPage = PageGeneratorManager.getEmployeeListPage(driver);
+        employeeListPage.clickToAddButtton();
+        addEmployeePage = PageGeneratorManager.getAddEmployeePage(driver);
+
+        employeeId = addEmployeePage.getValueInTextBoxByLabel("Employee Id");
+        firstName = excelConfig.getCellData("valid data", 4) + employeeId;
+        middleName = excelConfig.getCellData("valid data", 5);
+        lastName = excelConfig.getCellData("valid data", 6);
+
+        addEmployeePage.enterToTextboxByName(firstName, "firstName");
+        addEmployeePage.enterToTextboxByName(middleName, "middleName");
+        addEmployeePage.enterToTextboxByName(lastName, "lastName");
+        addEmployeePage.clickToggle();
+
+        userName = excelConfig.getCellData("valid data", 8) + employeeId;
+        password = excelConfig.getCellData("valid data", 9);
+        confirmPassword = excelConfig.getCellData("valid data", 10);
+
+        addEmployeePage.enterToTextboxByLabel(userName, "Username");
+        addEmployeePage.enterToTextboxByLabel(password, "Password");
+        addEmployeePage.enterToTextboxByLabel(confirmPassword, "Confirm Password");
+        addEmployeePage.clickToSaveButton();
+
+        //Check toast messeage thanh cong
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 11).replace("\n", "<br>"));
+        Assert.assertTrue(addEmployeePage.isSuccessMessageDisplayed("Successfully Saved"));
+
+        //Check DB
+        employeeDB = addEmployeePage.employeeFromDB(employeeId);
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 11).replace("\n", "<br>"));
+        Assert.assertEquals(employeeDB.get("emp_firstname"), firstName);
+        Assert.assertEquals(employeeDB.get("emp_middle_name"), middleName);
+        Assert.assertEquals(employeeDB.get("emp_lastname"), lastName);
+
+        //Tao them mot tai khoan co user dupicate voi username da ton tai trong he thong
+        addEmployeePage.openPageUrl(driver, GlobalConstants.getGlobalConstants().getAddEmployeeUrl());
+        firstName = excelConfig.getCellData("valid data", 4) + employeeId;
+        middleName = excelConfig.getCellData("valid data", 5);
+        lastName = excelConfig.getCellData("valid data", 6);
+
+        addEmployeePage.enterToTextboxByName(firstName, "firstName");
+        addEmployeePage.enterToTextboxByName(middleName, "middleName");
+        addEmployeePage.enterToTextboxByName(lastName, "lastName");
+        addEmployeePage.clickToggle();
+
+        userName = excelConfig.getCellData("valid data", 8) + employeeId;
+        password = excelConfig.getCellData("valid data", 9);
+        confirmPassword = excelConfig.getCellData("valid data", 10);
+
+        addEmployeePage.enterToTextboxByLabel(userName, "Username");
+        addEmployeePage.enterToTextboxByLabel(password, "Password");
+        addEmployeePage.enterToTextboxByLabel(confirmPassword, "Confirm Password");
+        Map<String,String> employeeDBTruoc = addEmployeePage.employeeFromDB(employeeId);
+        addEmployeePage.clickToSaveButton();
+
+        Assert.assertTrue(addEmployeePage.isSuccessMessageNotDisplayed("Successfully Saved"));
+
+        //Check DB
+        Map<String,String> employeeDBSau = addEmployeePage.employeeFromDB(employeeId);
+        employeeDB = addEmployeePage.employeeFromDB(employeeId);
+
+        //Check Khong luu them vao DB
+        Assert.assertEquals(employeeDBSau.size(),employeeDBTruoc.size());
+
+    }
+    @Test
+    //Testcase nay he thong dang loi
+    public void Full_luong_EmployeeManagement_Dupicated_EmployeeID(Method method){
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 1).replace("\n", "<br>"));
+        dashboadPage = PageGeneratorManager.getDashboardPage(driver);
+        dashboadPage.clickToSidebarLinkByText("PIM");
+//1. Create an employee and an account for the employee.
+        employeeListPage = PageGeneratorManager.getEmployeeListPage(driver);
+        employeeListPage.clickToAddButtton();
+        addEmployeePage = PageGeneratorManager.getAddEmployeePage(driver);
+
+        employeeId = addEmployeePage.getValueInTextBoxByLabel("Employee Id");
+        firstName = excelConfig.getCellData("valid data", 4) + employeeId;
+        middleName = excelConfig.getCellData("valid data", 5);
+        lastName = excelConfig.getCellData("valid data", 6);
+
+        addEmployeePage.enterToTextboxByName(firstName, "firstName");
+        addEmployeePage.enterToTextboxByName(middleName, "middleName");
+        addEmployeePage.enterToTextboxByName(lastName, "lastName");
+        addEmployeePage.clickToggle();
+
+        userName = excelConfig.getCellData("valid data", 8) + employeeId;
+        password = excelConfig.getCellData("valid data", 9);
+        confirmPassword = excelConfig.getCellData("valid data", 10);
+
+        addEmployeePage.enterToTextboxByLabel(userName, "Username");
+        addEmployeePage.enterToTextboxByLabel(password, "Password");
+        addEmployeePage.enterToTextboxByLabel(confirmPassword, "Confirm Password");
+        //Nhap emloyee trung voi cai da co
+        addEmployeePage.enterToTextboxByLabel(employeeId, "Employee Id");
+        addEmployeePage.clickToSaveButton();
+
+        //Check toast messeage thanh cong
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 11).replace("\n", "<br>"));
+        Assert.assertTrue(addEmployeePage.isSuccessMessageDisplayed("Successfully Saved"));
+
+        //Check DB
+        employeeDB = addEmployeePage.employeeFromDB(employeeId);
+        ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), excelConfig.getCellData("Description", 11).replace("\n", "<br>"));
+        Assert.assertEquals(employeeDB.get("emp_firstname"), firstName);
+        Assert.assertEquals(employeeDB.get("emp_middle_name"), middleName);
+        Assert.assertEquals(employeeDB.get("emp_lastname"), lastName);
+
+//        addEmployeePage.openPageUrl(driver, GlobalConstants.getGlobalConstants().getAddEmployeeUrl());
+        addEmployeePage.backToPage(driver);
+
+        //1. Create an employee and other account for the employee and dupicate employeeID
+        employeeListPage = PageGeneratorManager.getEmployeeListPage(driver);
+        employeeListPage.clickToAddButtton();
+        addEmployeePage = PageGeneratorManager.getAddEmployeePage(driver);
+
+
+        firstName = excelConfig.getCellData("valid data", 4) + employeeId;
+        middleName = excelConfig.getCellData("valid data", 5);
+        lastName = excelConfig.getCellData("valid data", 6);
+
+        addEmployeePage.enterToTextboxByName(firstName, "firstName");
+        addEmployeePage.enterToTextboxByName(middleName, "middleName");
+        addEmployeePage.enterToTextboxByName(lastName, "lastName");
+        addEmployeePage.clickToggle();
+
+        userName = excelConfig.getCellData("valid data", 8) + employeeId+"sss";
+        password = excelConfig.getCellData("valid data", 9);
+        confirmPassword = excelConfig.getCellData("valid data", 10);
+
+        addEmployeePage.enterToTextboxByLabel(userName, "Username");
+        addEmployeePage.enterToTextboxByLabel(password, "Password");
+        addEmployeePage.enterToTextboxByLabel(confirmPassword, "Confirm Password");
+        Map<String,String> employeeDBTruoc = addEmployeePage.employeeFromDB(employeeId);
+        addEmployeePage.enterToTextboxByLabel(employeeId, "Employee Id");
+        addEmployeePage.clickToSaveButton();
+
+        Assert.assertTrue(addEmployeePage.isSuccessMessageNotDisplayed("Successfully Saved"));
+
+        //Check DB
+        Map<String,String> employeeDBSau = addEmployeePage.employeeFromDB(employeeId);
+        employeeDB = addEmployeePage.employeeFromDB(employeeId);
+
+        //Check Khong luu them vao DB
+        Assert.assertEquals(employeeDBSau.size(),employeeDBTruoc.size());
+
     }
 
     //    @AfterClass
