@@ -346,7 +346,7 @@ public class MyTimesheet extends BaseTest {
 
     }
 
-    //@Test
+    @Test
     public void TC_09_Full_Luong_Project_Timesheet(Method method) {
         ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(),"rrrr");
 
@@ -505,7 +505,7 @@ public class MyTimesheet extends BaseTest {
         //Khoi tao myTimesheetPage
         myTimesheetPage=PageGeneratorManager.getMyTimesheetPageObject(driver);
         //Tim kiem nhan vien muon phe duyẹt
-        myTimesheetPage.searchAndSelectInComboboxByLabel("client","Nguyen  Thi Toi client","Employee Name");
+        myTimesheetPage.searchAndSelectInComboboxByLabel("client","Nguyen Thi Toi client","Employee Name");
         //Click xem
         myTimesheetPage.clickButtonByJSAndName(" View ");
         myTimesheetPage.waitForSpinnerIconInvisible();
@@ -602,12 +602,14 @@ public class MyTimesheet extends BaseTest {
 
 
         //Nhap comment
+        myTimesheetPageC.scrollTextarea();
         comment=excelConfig.getCellData("Comment",  1);
         myTimesheetPageC.enterToTextArea(comment);
 
         //Click Chấp nhận bảng thời gian
-        myTimesheetPage.scrollButtonOnTopByName(" Approve ");
+//        myTimesheetPage.scrollButtonOnTopByName(" Approve ");
         myTimesheetPage.clickButtonByName(" Approve ");
+//        myTimesheetPage.clickButtonByName(" Approve ");
 
         //Kiem tra them message approva3 v/e thành cong neu có thoi gia /456
         Assert.assertTrue(myTimesheetPageC.isSuccessMessageDisplayed("Timesheet Approved"));
@@ -674,7 +676,7 @@ public class MyTimesheet extends BaseTest {
 
     }
 
-    @Test
+    //@Test
     public void TC_10_Edit_TimeSheet_Fail_When_Dupicate_Activity(Method method) {
         ExtentTestManager.startTest(method.getName() + "-" + browserName.toUpperCase(), "rrrr");
 

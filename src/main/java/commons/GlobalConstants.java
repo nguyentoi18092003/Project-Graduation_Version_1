@@ -32,7 +32,7 @@ private static GlobalConstants globalInstance;
     private final String reportImagePath=projectPath +File.separator+"reportNGImage"+File.separator;
     private final String javaVersion =System.getProperty("java.version");
     public  final String dataTestPath=projectPath+File.separator+"src"+File.separator+"testdata"+File.separator+File.separator;
-    public final String editURl="http://localhost:90/orangehrm5/orangehrm5/web/index.php/pim/viewPersonalDetails/empNumber/350";
+    public final String editURl="http://localhost:90/orangehrm5/orangehrm5/web/index.php/pim/viewPersonalDetails/empNumber/887";
     public final String addEmployeeUrl="http://localhost:90/orangehrm5/orangehrm5/web/index.php/pim/addEmployee";
     public static GlobalConstants getGlobalInstance() {
         return globalInstance;

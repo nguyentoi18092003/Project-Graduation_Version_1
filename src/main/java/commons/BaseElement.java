@@ -54,6 +54,9 @@ public class BaseElement extends BasePage {
     public void scrollButtonOnTopByName(String name){
         scrollToElementOnTop(driver,BaseElementUI.BUTTON_BY_NAME, name);
     }
+    public void scrollTextarea(){
+        scrollToElementOnTop(driver,BaseElementUI.TEXTAREA);
+    }
 
 
 
