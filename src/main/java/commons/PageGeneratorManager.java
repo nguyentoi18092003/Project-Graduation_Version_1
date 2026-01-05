@@ -4,10 +4,13 @@ import org.openqa.selenium.WebDriver;
 import pageObjects.pageObjectsAdmin.adminObjects.AdminPageObject;
 import pageObjects.pageObjectsAdmin.dashboardObjects.DashboardPageObject;
 import pageObjects.pageObjectCommon.loginObjects.LoginPageObject;
+import pageObjects.pageObjectsAdmin.leaveObjects.*;
 import pageObjects.pageObjectsAdmin.pimObjects.*;
 import pageObjects.pageObjectCommon.sidebarObjects.SidebarPageObject;
+import pageObjects.pageObjectsAdmin.recruitmentObjects.*;
 import pageObjects.pageObjectsAdmin.timeObjects.*;
 import pageObjects.pageObjectsClient.DashboardObjectC.DashboardPageObjectC;
+import pageObjects.pageObjectsClient.LeaveObjectC.*;
 import pageObjects.pageObjectsClient.MyInfoObjectsC.*;
 import pageObjects.pageObjectsClient.timeObject.EditTimesheetPageObjectC;
 import pageObjects.pageObjectsClient.timeObject.MyTimesheetPageObjectC;
@@ -129,5 +132,51 @@ public class PageGeneratorManager {
     public static PunchOutPageObjectC getPunchOutPageObjectClient(WebDriver driver){
         return new PunchOutPageObjectC(driver);
     }
+    public static ApplyLeavePageObjectC getApplyLeavePageObjectClient(WebDriver driver){
+        return new ApplyLeavePageObjectC(driver);
+    }
 
+    public static MyLeaveListPageObjectC getMyLeaveListPageObjectClient(WebDriver driver){
+        return new MyLeaveListPageObjectC(driver);
+    }
+
+    public static LeaveListPageObject getLeaveListPageObject(WebDriver driver){
+        return new LeaveListPageObject(driver);
+    }
+
+    public static EditVacancyPageObject getEditVacancyPageObject(WebDriver driver){
+        return new EditVacancyPageObject(driver);
+    }
+
+    public static VacancyListPageObject getVacancyListPageObject(WebDriver driver){
+        return new VacancyListPageObject(driver);
+    }
+
+    public static AddCandidatePageObject getAddCandidatePageObject(WebDriver driver){
+        return new AddCandidatePageObject(driver);
+    }
+    public static HireCandidatePageObject getHireCandidatePageObject(WebDriver driver){
+        return new HireCandidatePageObject(driver);
+    }
+    public static MarkInterviewResultPageObject getMarkInterviewResultPageObject(WebDriver driver){
+        return new MarkInterviewResultPageObject(driver);
+    }
+    public static OfferDeclinedPageObject getOfferDeclinedPageObject(WebDriver driver){
+        return new OfferDeclinedPageObject(driver);
+    }
+    public static OfferJobPageObject getOfferJobPageObject(WebDriver driver){
+        return new OfferJobPageObject(driver);
+    }
+    public static RejectCandidatePageObject getRejectCandidatePageObject(WebDriver driver){
+        return new RejectCandidatePageObject(driver);
+    }
+    public static ScheduleInterviewPageObject getScheduleInterviewPageObject(WebDriver driver){
+        return new ScheduleInterviewPageObject(driver);
+    }
+    public static ShortlistPageObject getShortlistPageObject(WebDriver driver){
+        return new ShortlistPageObject(driver);
+    }
+    public static CandidateListPageObject getCandidateListPageObject(WebDriver driver){
+        return new CandidateListPageObject(driver);
+    }
 }
