@@ -668,5 +668,9 @@ public class BasePage {
                 element, value
         );
     }
+    protected void clickToElementByJS(WebDriver driver, WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].click();", element);
+    }
 }
 

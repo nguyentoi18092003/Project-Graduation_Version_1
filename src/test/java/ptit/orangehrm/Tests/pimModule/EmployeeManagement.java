@@ -1416,7 +1416,7 @@ public class EmployeeManagement extends BaseTest {
 //Kich hoat tai khoan de cho tai khoan active lai
 //7. kich hoat lai tai khoan
         jobPage.clickButtonByName(" Activate Employment ");
-        Thread.sleep(5000);
+
         //    8. Logout va sang ben nhan vien kiem tra dang nhap  thanh cong
         jobPage.logout();
         loginPage = PageGeneratorManager.getLoginPage(driver);
