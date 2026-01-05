@@ -632,6 +632,41 @@ public class BasePage {
     private long longTimeOut=GlobalConstants.getGlobalConstants().getLongTimeout();
     private long shortTimeOut=GlobalConstants.getGlobalInstance().getShortTimeout();
 
-
+    // trang
+    public String getTextboxLocatorByLabel(String labelText) {
+        return String.format(BaseElementUI.DYNAMIC_TEXTBOX_BY_LABEL, labelText);
+    }
+    public String getTextareaLocatorByLabel(String labelText) {
+        return String.format(BaseElementUI.DYNAMIC_TEXTAREA_BY_LABEL, labelText);
+    }
+    public void setTextboxValueByJS(WebDriver driver, String labelText, String value) {
+        String locator = getTextboxLocatorByLabel(labelText);
+        WebElement element = getWebElement(driver, locator);
+        ((JavascriptExecutor) driver).executeScript(
+                // Xóa trước, rồi set lại giá trị mới + kích hoạt event để React cập nhật
+                "arguments[0].focus();" +
+                        "arguments[0].value = '';" +
+                        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));" +
+                        "arguments[0].value = arguments[1];" +
+                        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));" +
+                        "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));" +
+                        "arguments[0].blur();",
+                element, value
+        );
+    }
+    public void setTextareaValueByJS(WebDriver driver, String labelText, String value) {
+        String locator = getTextareaLocatorByLabel(labelText);
+        WebElement element = getWebElement(driver, locator);
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].focus();" +
+                        "arguments[0].value = '';" +
+                        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));" +
+                        "arguments[0].value = arguments[1];" +
+                        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));" +
+                        "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));" +
+                        "arguments[0].blur();",
+                element, value
+        );
+    }
 }
 
