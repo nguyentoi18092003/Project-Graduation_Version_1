@@ -46,12 +46,7 @@
             <version>${selenium.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.uncommons</groupId>
-            <artifactId>reportng</artifactId>
-            <version>${reportng.version}</version>
-            <scope>test</scope>
-        </dependency>
+       
 
 
         <dependency>
